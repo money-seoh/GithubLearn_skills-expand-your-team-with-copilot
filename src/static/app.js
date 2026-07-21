@@ -553,19 +553,19 @@ document.addEventListener("DOMContentLoaded", () => {
         </ul>
       </div>
       <div class="sharing-section">
-        <label class="share-label">Share Activity:</label>
+        <span class="share-label">Share Activity:</span>
         <div class="share-buttons">
-          <button class="share-button twitter-share" data-activity="${name}" title="Share on Twitter">
-            <span class="share-icon">𝕏</span>
+          <button class="share-button twitter-share" data-activity="${name}" title="Share on Twitter" aria-label="Share ${name} on Twitter">
+            <span class="share-icon" aria-hidden="true">𝕏</span>
           </button>
-          <button class="share-button facebook-share" data-activity="${name}" title="Share on Facebook">
-            <span class="share-icon">f</span>
+          <button class="share-button facebook-share" data-activity="${name}" title="Share on Facebook" aria-label="Share ${name} on Facebook">
+            <span class="share-icon" aria-hidden="true">f</span>
           </button>
-          <button class="share-button linkedin-share" data-activity="${name}" title="Share on LinkedIn">
-            <span class="share-icon">in</span>
+          <button class="share-button linkedin-share" data-activity="${name}" title="Share on LinkedIn" aria-label="Share ${name} on LinkedIn">
+            <span class="share-icon" aria-hidden="true">in</span>
           </button>
-          <button class="share-button email-share" data-activity="${name}" title="Share via Email">
-            <span class="share-icon">✉</span>
+          <button class="share-button email-share" data-activity="${name}" title="Share via Email" aria-label="Share ${name} via email">
+            <span class="share-icon" aria-hidden="true">✉</span>
           </button>
         </div>
       </div>
