@@ -4,37 +4,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeIcon = document.getElementById("theme-icon");
   const htmlElement = document.documentElement;
 
-  // Initialize theme from localStorage or system preference
-  function initializeTheme() {
-    const savedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = savedTheme || (prefersDark ? "dark" : "light");
+  // Only initialize dark mode if the toggle button exists
+  if (themeToggle && themeIcon) {
+    // Initialize theme from localStorage or system preference
+    function initializeTheme() {
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = savedTheme || (prefersDark ? "dark" : "light");
 
-    setTheme(theme);
-  }
-
-  // Set the theme and update localStorage
-  function setTheme(theme) {
-    if (theme === "dark") {
-      htmlElement.setAttribute("data-theme", "dark");
-      themeIcon.textContent = "☀️";
-      localStorage.setItem("theme", "dark");
-    } else {
-      htmlElement.removeAttribute("data-theme");
-      themeIcon.textContent = "🌙";
-      localStorage.setItem("theme", "light");
+      setTheme(theme);
     }
+
+    // Set the theme and update localStorage
+    function setTheme(theme) {
+      if (theme === "dark") {
+        htmlElement.setAttribute("data-theme", "dark");
+        themeIcon.textContent = "☀️";
+        localStorage.setItem("theme", "dark");
+      } else {
+        htmlElement.removeAttribute("data-theme");
+        themeIcon.textContent = "🌙";
+        localStorage.setItem("theme", "light");
+      }
+    }
+
+    // Toggle theme on button click
+    themeToggle.addEventListener("click", () => {
+      const currentTheme = htmlElement.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      setTheme(newTheme);
+    });
+
+    // Initialize theme on page load
+    initializeTheme();
   }
-
-  // Toggle theme on button click
-  themeToggle.addEventListener("click", () => {
-    const currentTheme = htmlElement.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-  });
-
-  // Initialize theme on page load
-  initializeTheme();
 
   // DOM elements
   const activitiesList = document.getElementById("activities-list");
