@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Toggle theme on button click
     themeToggle.addEventListener("click", () => {
-      const currentTheme = htmlElement.getAttribute("data-theme");
+      const currentTheme = htmlElement.getAttribute("data-theme") || "light";
       const newTheme = currentTheme === "dark" ? "light" : "dark";
       setTheme(newTheme);
     });

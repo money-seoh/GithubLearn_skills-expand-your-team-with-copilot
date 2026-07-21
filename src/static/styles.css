@@ -1,4 +1,14 @@
-/* Color palette */
+/* Color palette
+   Color naming convention:
+   - Base colors (--primary, --secondary, --success, etc.) are used for primary content (text, borders)
+   - Suffixed colors:
+     * -light: Secondary/background variant of the color (e.g., light green backgrounds for success)
+     * -dark: Darker accent variant of the color (e.g., darker shade for depth)
+     * -text: Text color to use when the base color is used as background
+   
+   In dark mode, the base color values and -light variants change to maintain
+   appropriate contrast and visual hierarchy for dark backgrounds.
+*/
 :root {
   /* Primary colors */
   --primary: #1a237e;
@@ -55,9 +65,7 @@
   --border-light: #424242;
   --border-focus: #555555;
 
-  /* Feedback colors
-     Note: The -light suffix denotes the secondary/background variant of each color,
-     not necessarily a lighter shade. In dark mode, these are dark colors for backgrounds. */
+  /* Feedback colors */
   --success: #66bb6a;
   --success-light: #1b5e20;
   --warning: #ffa726;
