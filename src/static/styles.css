@@ -30,6 +30,14 @@
   --error-light: #ffebee;
   --info: #0c5460;
   --info-light: #d1ecf1;
+
+  /* Difficulty level colors */
+  --difficulty-beginner-bg: #d4edda;
+  --difficulty-beginner-text: #155724;
+  --difficulty-intermediate-bg: #fff3cd;
+  --difficulty-intermediate-text: #856404;
+  --difficulty-advanced-bg: #f8d7da;
+  --difficulty-advanced-text: #721c24;
 }
 
 * {

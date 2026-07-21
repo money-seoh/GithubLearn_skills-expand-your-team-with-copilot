@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeLoginModal = document.querySelector(".close-login-modal");
   const loginMessage = document.getElementById("login-message");
 
+  // Function to get CSS variable value
+  function getCSSVariable(varName) {
+    return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+  }
+
   // Activity categories with corresponding colors
   const activityTypes = {
     sports: { label: "Sports", color: "#e8f5e9", textColor: "#2e7d32" },
@@ -35,11 +40,20 @@ document.addEventListener("DOMContentLoaded", () => {
     technology: { label: "Technology", color: "#e8eaf6", textColor: "#3949ab" },
   };
 
-  // Difficulty levels with corresponding colors
+  // Difficulty levels with colors from CSS variables
   const difficultyColors = {
-    "Beginner": { bg: "#d4edda", text: "#155724" },
-    "Intermediate": { bg: "#fff3cd", text: "#856404" },
-    "Advanced": { bg: "#f8d7da", text: "#721c24" }
+    "Beginner": { 
+      bg: getCSSVariable("--difficulty-beginner-bg"), 
+      text: getCSSVariable("--difficulty-beginner-text") 
+    },
+    "Intermediate": { 
+      bg: getCSSVariable("--difficulty-intermediate-bg"), 
+      text: getCSSVariable("--difficulty-intermediate-text") 
+    },
+    "Advanced": { 
+      bg: getCSSVariable("--difficulty-advanced-bg"), 
+      text: getCSSVariable("--difficulty-advanced-text") 
+    }
   };
 
   // State for activities and filters
