@@ -6,13 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Only initialize dark mode if the toggle button exists
   if (themeToggle && themeIcon) {
+    const SKIP_SAVE = true;
+
     // Initialize theme from localStorage or system preference
     function initializeTheme() {
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       const theme = savedTheme || (prefersDark ? "dark" : "light");
 
-      setTheme(theme, true);
+      setTheme(theme, SKIP_SAVE);
     }
 
     // Set the theme and update localStorage
