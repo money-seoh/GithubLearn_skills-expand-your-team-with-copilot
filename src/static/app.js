@@ -630,15 +630,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (buttonClasses.contains("twitter-share")) {
       // Share on Twitter/X
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-      window.open(twitterUrl, "_blank", "width=550,height=420");
+      window.open(twitterUrl, "_blank", "noopener,noreferrer,width=550,height=420");
     } else if (buttonClasses.contains("facebook-share")) {
       // Share on Facebook
       const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareTitle)}`;
-      window.open(facebookUrl, "_blank", "width=550,height=420");
+      window.open(facebookUrl, "_blank", "noopener,noreferrer,width=550,height=420");
     } else if (buttonClasses.contains("linkedin-share")) {
       // Share on LinkedIn
       const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
-      window.open(linkedInUrl, "_blank", "width=550,height=420");
+      window.open(linkedInUrl, "_blank", "noopener,noreferrer,width=550,height=420");
     } else if (buttonClasses.contains("email-share")) {
       // Share via Email
       const emailSubject = `I found an activity you might like: ${activityName}`;
