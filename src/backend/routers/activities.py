@@ -63,10 +63,7 @@ def get_activities(
     
     # Combine all conditions with $and
     if conditions:
-        if len(conditions) == 1:
-            query = conditions[0]
-        else:
-            query = {"$and": conditions}
+        query = {"$and": conditions}
     
     # Query the database
     activities = {}

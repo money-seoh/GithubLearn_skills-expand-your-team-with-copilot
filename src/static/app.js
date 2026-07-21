@@ -40,21 +40,27 @@ document.addEventListener("DOMContentLoaded", () => {
     technology: { label: "Technology", color: "#e8eaf6", textColor: "#3949ab" },
   };
 
-  // Difficulty levels with colors from CSS variables
-  const difficultyColors = {
-    "Beginner": { 
-      bg: getCSSVariable("--difficulty-beginner-bg"), 
-      text: getCSSVariable("--difficulty-beginner-text") 
-    },
-    "Intermediate": { 
-      bg: getCSSVariable("--difficulty-intermediate-bg"), 
-      text: getCSSVariable("--difficulty-intermediate-text") 
-    },
-    "Advanced": { 
-      bg: getCSSVariable("--difficulty-advanced-bg"), 
-      text: getCSSVariable("--difficulty-advanced-text") 
+  // Difficulty levels - lazy load colors from CSS variables to ensure CSS is parsed
+  let difficultyColors = null;
+  function getDifficultyColors() {
+    if (!difficultyColors) {
+      difficultyColors = {
+        "Beginner": { 
+          bg: getCSSVariable("--difficulty-beginner-bg"), 
+          text: getCSSVariable("--difficulty-beginner-text") 
+        },
+        "Intermediate": { 
+          bg: getCSSVariable("--difficulty-intermediate-bg"), 
+          text: getCSSVariable("--difficulty-intermediate-text") 
+        },
+        "Advanced": { 
+          bg: getCSSVariable("--difficulty-advanced-bg"), 
+          text: getCSSVariable("--difficulty-advanced-text") 
+        }
+      };
     }
-  };
+    return difficultyColors;
+  }
 
   // State for activities and filters
   let allActivities = {};
@@ -543,7 +549,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Create difficulty badge if difficulty is specified
     let difficultyBadgeHtml = "";
     if (details.difficulty) {
-      const difficultyColor = difficultyColors[details.difficulty] || { bg: "#e2e3e5", text: "#383d41" };
+      const colors = getDifficultyColors();
+      const difficultyColor = colors[details.difficulty] || { bg: "#e2e3e5", text: "#383d41" };
       difficultyBadgeHtml = `
         <span class="difficulty-badge" style="background-color: ${difficultyColor.bg}; color: ${difficultyColor.text}">
           ${details.difficulty}
