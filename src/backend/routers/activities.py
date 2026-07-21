@@ -18,26 +18,52 @@ router = APIRouter(
 def get_activities(
     day: Optional[str] = None,
     start_time: Optional[str] = None,
-    end_time: Optional[str] = None
+    end_time: Optional[str] = None,
+    difficulty: Optional[str] = None
 ) -> Dict[str, Any]:
     """
-    Get all activities with their details, with optional filtering by day and time
+    Get all activities with their details, with optional filtering by day, time, and difficulty
     
     - day: Filter activities occurring on this day (e.g., 'Monday', 'Tuesday')
     - start_time: Filter activities starting at or after this time (24-hour format, e.g., '14:30')
     - end_time: Filter activities ending at or before this time (24-hour format, e.g., '17:00')
+    - difficulty: Filter activities by difficulty level:
+                  * 'Beginner', 'Intermediate', 'Advanced': Returns activities with that difficulty
+                    PLUS activities with no difficulty specified (as these are suitable for all levels)
+                  * 'Unspecified': Returns only activities with no difficulty field specified
+                  * Empty/None: Returns all activities regardless of difficulty
     """
     # Build the query based on provided filters
     query = {}
+    conditions = []
     
     if day:
-        query["schedule_details.days"] = {"$in": [day]}
+        conditions.append({"schedule_details.days": {"$in": [day]}})
     
     if start_time:
-        query["schedule_details.start_time"] = {"$gte": start_time}
+        conditions.append({"schedule_details.start_time": {"$gte": start_time}})
     
     if end_time:
-        query["schedule_details.end_time"] = {"$lte": end_time}
+        conditions.append({"schedule_details.end_time": {"$lte": end_time}})
+    
+    # Handle difficulty filter
+    if difficulty:
+        if difficulty == "Unspecified":
+            # When "Unspecified" is selected, show only activities with no difficulty specified
+            conditions.append({"difficulty": {"$exists": False}})
+        else:
+            # When a specific difficulty is selected, show activities with that difficulty
+            # as well as activities with no difficulty specified (for all levels)
+            conditions.append({
+                "$or": [
+                    {"difficulty": difficulty},
+                    {"difficulty": {"$exists": False}}
+                ]
+            })
+    
+    # Combine all conditions with $and
+    if conditions:
+        query = {"$and": conditions}
     
     # Query the database
     activities = {}
