@@ -12,7 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function initializeTheme() {
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const theme = savedTheme || (prefersDark ? "dark" : "light");
+      const theme =
+        savedTheme === "dark" || savedTheme === "light"
+          ? savedTheme
+          : prefersDark
+            ? "dark"
+            : "light";
 
       setTheme(theme, SKIP_SAVE);
     }
