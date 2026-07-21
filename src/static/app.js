@@ -20,10 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (theme === "dark") {
         htmlElement.setAttribute("data-theme", "dark");
         themeIcon.textContent = "☀️";
+        themeToggle.setAttribute("aria-pressed", "true");
+        themeToggle.setAttribute("aria-label", "Disable dark mode");
         localStorage.setItem("theme", "dark");
       } else {
         htmlElement.removeAttribute("data-theme");
         themeIcon.textContent = "🌙";
+        themeToggle.setAttribute("aria-pressed", "false");
+        themeToggle.setAttribute("aria-label", "Enable dark mode");
         localStorage.setItem("theme", "light");
       }
     }

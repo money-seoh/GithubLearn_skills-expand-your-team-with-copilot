@@ -55,7 +55,9 @@
   --border-light: #424242;
   --border-focus: #555555;
 
-  /* Feedback colors */
+  /* Feedback colors
+     Note: The -light suffix denotes the secondary/background variant of each color,
+     not necessarily a lighter shade. In dark mode, these are dark colors for backgrounds. */
   --success: #66bb6a;
   --success-light: #1b5e20;
   --warning: #ffa726;
