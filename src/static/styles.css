@@ -43,7 +43,7 @@
 }
 
 /* Dark mode theme */
-[data-theme="dark"] {
+:root[data-theme="dark"] {
   /* Primary colors */
   --primary: #3949ab;
   --primary-light: #5e35b1;
