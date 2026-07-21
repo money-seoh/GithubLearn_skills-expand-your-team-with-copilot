@@ -12,23 +12,27 @@ document.addEventListener("DOMContentLoaded", () => {
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       const theme = savedTheme || (prefersDark ? "dark" : "light");
 
-      setTheme(theme);
+      setTheme(theme, true);
     }
 
     // Set the theme and update localStorage
-    function setTheme(theme) {
+    function setTheme(theme, skipSave = false) {
       if (theme === "dark") {
         htmlElement.setAttribute("data-theme", "dark");
         themeIcon.textContent = "☀️";
         themeToggle.setAttribute("aria-pressed", "true");
-        themeToggle.setAttribute("aria-label", "Disable dark mode");
-        localStorage.setItem("theme", "dark");
+        themeToggle.setAttribute("aria-label", "Switch to light mode");
+        if (!skipSave) {
+          localStorage.setItem("theme", "dark");
+        }
       } else {
         htmlElement.removeAttribute("data-theme");
         themeIcon.textContent = "🌙";
         themeToggle.setAttribute("aria-pressed", "false");
-        themeToggle.setAttribute("aria-label", "Enable dark mode");
-        localStorage.setItem("theme", "light");
+        themeToggle.setAttribute("aria-label", "Switch to dark mode");
+        if (!skipSave) {
+          localStorage.setItem("theme", "light");
+        }
       }
     }
 
