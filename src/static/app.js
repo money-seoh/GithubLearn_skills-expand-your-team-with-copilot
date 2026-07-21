@@ -1,4 +1,59 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Dark mode toggle functionality
+  const themeToggle = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
+  const htmlElement = document.documentElement;
+
+  // Only initialize dark mode if the toggle button exists
+  if (themeToggle && themeIcon) {
+    const SKIP_SAVE = true;
+
+    // Initialize theme from localStorage or system preference
+    function initializeTheme() {
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme =
+        savedTheme === "dark" || savedTheme === "light"
+          ? savedTheme
+          : prefersDark
+            ? "dark"
+            : "light";
+
+      setTheme(theme, SKIP_SAVE);
+    }
+
+    // Set the theme and update localStorage
+    function setTheme(theme, skipSave = false) {
+      if (theme === "dark") {
+        htmlElement.setAttribute("data-theme", "dark");
+        themeIcon.textContent = "☀️";
+        themeToggle.setAttribute("aria-pressed", "true");
+        themeToggle.setAttribute("aria-label", "Switch to light mode");
+        if (!skipSave) {
+          localStorage.setItem("theme", "dark");
+        }
+      } else {
+        htmlElement.removeAttribute("data-theme");
+        themeIcon.textContent = "🌙";
+        themeToggle.setAttribute("aria-pressed", "false");
+        themeToggle.setAttribute("aria-label", "Switch to dark mode");
+        if (!skipSave) {
+          localStorage.setItem("theme", "light");
+        }
+      }
+    }
+
+    // Toggle theme on button click
+    themeToggle.addEventListener("click", () => {
+      const currentTheme = htmlElement.getAttribute("data-theme") || "light";
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      setTheme(newTheme);
+    });
+
+    // Initialize theme on page load
+    initializeTheme();
+  }
+
   // DOM elements
   const activitiesList = document.getElementById("activities-list");
   const messageDiv = document.getElementById("message");
