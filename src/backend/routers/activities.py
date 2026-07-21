@@ -49,7 +49,11 @@ def get_activities(
             query["difficulty"] = {"$exists": False}
         else:
             # When a specific difficulty is selected, show activities with that difficulty
-            query["difficulty"] = difficulty
+            # as well as activities with no difficulty specified (for all levels)
+            query["$or"] = [
+                {"difficulty": difficulty},
+                {"difficulty": {"$exists": False}}
+            ]
     
     # Query the database
     activities = {}
