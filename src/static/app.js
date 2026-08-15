@@ -569,6 +569,34 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="sharing-section">
+        <button class="share-button" data-activity="${name}" title="Share this activity">
+          <span class="share-icon">📤</span>
+          <span class="share-text">Share</span>
+        </button>
+        <div class="share-menu hidden" data-activity="${name}">
+          <a href="#" class="share-option share-twitter" data-activity="${name}" data-name="${name}" title="Share on Twitter">
+            <span class="share-option-icon">𝕏</span>
+            <span>Twitter</span>
+          </a>
+          <a href="#" class="share-option share-facebook" data-activity="${name}" data-name="${name}" title="Share on Facebook">
+            <span class="share-option-icon">f</span>
+            <span>Facebook</span>
+          </a>
+          <a href="#" class="share-option share-whatsapp" data-activity="${name}" data-name="${name}" title="Share on WhatsApp">
+            <span class="share-option-icon">W</span>
+            <span>WhatsApp</span>
+          </a>
+          <a href="#" class="share-option share-email" data-activity="${name}" data-name="${name}" title="Share via Email">
+            <span class="share-option-icon">✉</span>
+            <span>Email</span>
+          </a>
+          <a href="#" class="share-option share-copy" data-activity="${name}" data-name="${name}" title="Copy Link">
+            <span class="share-option-icon">📋</span>
+            <span>Copy Link</span>
+          </a>
+        </div>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +614,39 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add share button click handler
+    const shareButton = activityCard.querySelector(".share-button");
+    const shareMenu = activityCard.querySelector(".share-menu");
+    if (shareButton && shareMenu) {
+      shareButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        // Close other share menus
+        document.querySelectorAll(".share-menu").forEach(menu => {
+          if (menu !== shareMenu) menu.classList.add("hidden");
+        });
+        // Toggle current menu
+        shareMenu.classList.toggle("hidden");
+      });
+
+      // Add share option click handlers
+      const shareOptions = activityCard.querySelectorAll(".share-option");
+      shareOptions.forEach((option) => {
+        option.addEventListener("click", (e) => {
+          e.preventDefault();
+          const platform = option.classList[1].replace("share-", "");
+          shareActivity(name, details, platform);
+          shareMenu.classList.add("hidden");
+        });
+      });
+    }
+
+    // Close share menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".sharing-section")) {
+        shareMenu.classList.add("hidden");
+      }
+    });
 
     activitiesList.appendChild(activityCard);
   }
@@ -854,6 +915,70 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error signing up:", error);
     }
   });
+
+  // Share activity function
+  function shareActivity(activityName, activityDetails, platform) {
+    // Get the current page URL
+    const pageUrl = window.location.origin + window.location.pathname;
+    const shareUrl = `${pageUrl}?activity=${encodeURIComponent(activityName)}`;
+    
+    // Build the share message
+    const schedule = formatSchedule(activityDetails);
+    const shareText = `Check out this activity: ${activityName} - ${activityDetails.description} (${schedule})`;
+    const encodedText = encodeURIComponent(shareText);
+    const encodedUrl = encodeURIComponent(shareUrl);
+
+    switch (platform) {
+      case "twitter":
+        // Twitter/X share
+        window.open(
+          `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
+          "twitter-share",
+          "width=550,height=420"
+        );
+        break;
+
+      case "facebook":
+        // Facebook share dialog
+        window.open(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
+          "facebook-share",
+          "width=550,height=420"
+        );
+        break;
+
+      case "whatsapp":
+        // WhatsApp share
+        window.open(
+          `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
+          "whatsapp-share"
+        );
+        break;
+
+      case "email":
+        // Email share
+        const subject = `Check out: ${activityName}`;
+        const body = `I found an interesting activity you might like:\n\n${activityName}\n${activityDetails.description}\n\nSchedule: ${schedule}\n\nLearn more: ${shareUrl}`;
+        window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        break;
+
+      case "copy":
+        // Copy link to clipboard
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          showMessage("Activity link copied to clipboard!", "success");
+        }).catch(() => {
+          // Fallback if clipboard API is not available
+          const textArea = document.createElement("textarea");
+          textArea.value = shareUrl;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textArea);
+          showMessage("Activity link copied to clipboard!", "success");
+        });
+        break;
+    }
+  }
 
   // Expose filter functions to window for future UI control
   window.activityFilters = {
